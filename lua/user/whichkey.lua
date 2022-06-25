@@ -96,13 +96,6 @@ local mappings = {
         "Find files",
     },
 
-    f = {
-        name = "File",
-        s = { "<cmd>w!<CR>", "Write" },
-        a = { "<cmd>wa!<CR>", "Write All" },
-    },
-
-
     ["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 
     ["o"] = { "<cmd>ToggleTerm direction=float<cr>", "Open Terminal" },
@@ -116,9 +109,15 @@ local mappings = {
     ["w"] = { ":qa!<CR>", "Quit All" },
     ["x"] = { ":close!<CR>", "Close Window" },
 
+    f = {
+        name = "File",
+        s = { "<cmd>w!<CR>", "Write" },
+        a = { "<cmd>wa!<CR>", "Write All" },
+    },
+
     g = {
         name = "Git",
-        g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },
+        -- g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
         l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
