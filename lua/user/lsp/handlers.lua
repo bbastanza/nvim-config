@@ -47,7 +47,7 @@ M.setup = function()
 
         augroup _format
             autocmd!
-             autocmd BufWritePre * lua vim.lsp.buf.format({})
+             autocmd BufWritePre * lua vim.lsp.buf.formatting()
     
         augroup end
     ]])

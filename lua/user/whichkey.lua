@@ -58,6 +58,7 @@ local setup = {
 		padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
 		winblend = 0,
 	},
+
 	layout = {
 		height = { min = 4, max = 25 }, -- min and max height of the columns
 		width = { min = 20, max = 50 }, -- min and max width of the columns
@@ -88,42 +89,27 @@ local opts = {
 }
 
 local mappings = {
-	["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-
-	b = {
-		name = "Buffers",
-		i = {
-			"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-			"View Buffers",
-		},
-		n = { ":bnext<CR>", "Next Buffer" },
-		p = { ":bprev<CR>", "Previous Buffer" },
-		k = { ":bdelete!<CR>", "Kill Buffer" },
-	},
-
 	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-	["fs"] = { "<cmd>w!<CR>", "Save" },
-
-	["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 
 	["."] = {
 		"<cmd>lua require('telescope.builtin').find_files{}<cr>",
 		"Find files",
 	},
 
+	["fs"] = { "<cmd>w!<CR>", "Save" },
+
 	["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 
-	P = {
-		name = "Packer",
+	["o"] = { "<cmd>ToggleTerm direction=float<cr>", "Open Terminal" },
+	["t"] = { ":bnext<CR>", "Next Buffer" },
+	["r"] = { ":bprev<CR>", "Previous Buffer" },
 
-		c = { "<cmd>PackerCompile<cr>", "Compile" },
-		i = { "<cmd>PackerInstall<cr>", "Install" },
-		s = { "<cmd>PackerSync<cr>", "Sync" },
-		S = { "<cmd>PackerStatus<cr>", "Status" },
-		u = { "<cmd>PackerUpdate<cr>", "Update" },
-	},
+	["b"] = { ":split!<CR>", "Horiontal Split" },
+	["v"] = { ":vsplit!<CR>", "Vertical Split" },
 
-	["q"] = { ":bdelete!<CR>", "Kill Buffer" },
+	["q"] = { ":Bdelete!<CR>", "Kill Buffer" },
+	["w"] = { ":qa!<CR>", "Quit All" },
+	["x"] = { ":close!<CR>", "Close Window" },
 
 	g = {
 		name = "Git",
@@ -159,7 +145,7 @@ local mappings = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
 			"Workspace Diagnostics",
 		},
-		f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+		f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Format" },
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
 		j = {
@@ -170,17 +156,16 @@ local mappings = {
 			"<cmd>lua vim.diagnostic.goto_prev()<cr>",
 			"Prev Diagnostic",
 		},
-		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
+		-- l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 		q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		R = { ":Telescope lsp_references<cr>", "Rename" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = {
 			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
 			"Workspace Symbols",
 		},
 	},
-
-	["o"] = { "<cmd>ToggleTerm direction=float<cr>", "Open Terminal" },
 
 	s = {
 		name = "Search",
@@ -198,24 +183,6 @@ local mappings = {
 		C = { "<cmd>Telescope commands<cr>", "Commands" },
 		o = { ":source /home/stanzu10/.config/nvim/init.lua<CR>", "Source" },
 	},
-
-	["t"] = { ":bnext<CR>", "Next Buffer" },
-	["r"] = { ":bprev<CR>", "Previous Buffer" },
-
-	w = {
-		name = "Window",
-		c = { ":close!<CR>", "Close" },
-		v = { ":vsplit<CR>", "Vertical Split" },
-		s = { ":split<CR>", "Horizontal Split" },
-		h = { "<C-w>h", "Left" },
-		j = { "<C-w>j", "Down" },
-		k = { "<C-w>k", "Up" },
-		l = { "<C-w>l", "Right" },
-	},
-
-	["x"] = { ":close!<CR>", "Close Window" },
-
-	["v"] = { ":vsplit!<CR>", "Vertical Split" },
 }
 
 which_key.setup(setup)

@@ -1,4 +1,4 @@
-vim.cmd [[
+vim.cmd([[
   augroup _general_settings
     autocmd!
     autocmd FileType qf,help,man,lspinfo nnoremap <silent> <buffer> q :close<CR> 
@@ -28,15 +28,20 @@ vim.cmd [[
     autocmd!
     autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
   augroup end
-]]
 
-  -- " augroup _showDiagnostics
-  -- "   autocmd!
-  -- "   autocmd BufWritePre * :lua vim.diagnostic.open_float()
-  -- " augroup end
+  augroup _lightbulb
+    autocmd!
+    autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()
+  augroup end
+]])
 
-    -- augroup _lsp
-    -- autocmd!
-    -- autocmd BufWritePre * lua vim.lsp.buff.format({""})
-    -- augroup end
+-- " augroup _showDiagnostics
+-- "   autocmd!
+-- "   autocmd BufWritePre * :lua vim.diagnostic.open_float()
+-- " augroup end
+
+-- augroup _lsp
+-- autocmd!
+-- autocmd BufWritePre * lua vim.lsp.buff.format({""})
+-- augroup end
 -- Autoformat
