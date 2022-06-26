@@ -93,6 +93,7 @@ return packer.startup(function(use)
     use("nvim-telescope/telescope-ui-select.nvim")
 
     -- Treesitter
+    use("p00f/nvim-ts-rainbow")
     use({
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
