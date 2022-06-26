@@ -105,9 +105,14 @@ local mappings = {
     ["b"] = { ":split!<CR>", "Horiontal Split" },
     ["v"] = { ":vsplit!<CR>", "Vertical Split" },
 
-    ["q"] = { ":Bdelete!<CR>", "Kill Buffer" },
-    ["w"] = { ":qa!<CR>", "Quit All" },
-    ["x"] = { ":close!<CR>", "Close Window" },
+    ["q"] = { ":Bdelete<CR>", "Kill Buffer" },
+    ["x"] = { ":close<CR>", "Close Window" },
+
+    w = {
+        name = "Exit",
+        q = { ":qa!<CR>", "Quit Without Save" },
+        w = { ":wa<CR>:qa!<CR>", "Write Quit All" },
+    },
 
     f = {
         name = "File",
@@ -142,7 +147,7 @@ local mappings = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = {
-            "<cmd>Telescope lsp_document_diagnostics<cr>",
+            ":Telescope lsp_document_diagnostics<cr>",
             "Document Diagnostics",
         },
         w = {
@@ -164,9 +169,11 @@ local mappings = {
         q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
         R = { ":Telescope lsp_references<cr>", "Rename" },
-        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+        s = {
+            "<cmd>lua require'telescope.builtin'.lsp_document_symbols(require('telescope.themes').get_dropdown())<CR>",
+            "Document Symbols" },
         S = {
-            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+            "<cmd>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols(require('telescope.themes').get_dropdown())<CR>",
             "Workspace Symbols",
         },
     },
