@@ -102,9 +102,13 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-    -- vim.notify(client.name .. " starting...")
+    vim.notify(client.name .. " starting...")
     -- TODO: refactor this into a method that checks if string in list
     if client.name == "tsserver" then
+        client.server_capabilities.document_formatting = false
+    end
+    if client.name == "jsonls" then
+        vim.notify(client.name .. " is jsonls...")
         client.server_capabilities.document_formatting = false
     end
     lsp_keymaps(bufnr)

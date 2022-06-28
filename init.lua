@@ -20,4 +20,6 @@ require("user.whichkey")
 require("user.autocommands")
 require("user.vimspector")
 require("user.lightbulb")
+require("user.unittests")
 require("user.colorscheme")
+

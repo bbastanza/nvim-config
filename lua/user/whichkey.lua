@@ -108,6 +108,14 @@ local mappings = {
     ["q"] = { ":Bdelete<CR>", "Kill Buffer" },
     ["x"] = { ":close<CR>", "Close Window" },
 
+    u = {
+        name = "Unit Tests",
+        n = { ":TestNearest<CR>", "Nearest" },
+        s = { ":TestSuite<CR>", "Suite" },
+        l = { ":TestLast<CR>", "Last" },
+        f = { ":TestFile<CR>", "BROKEN: File" },
+    },
+
     w = {
         name = "Exit",
         q = { ":qa!<CR>", "Quit Without Save" },

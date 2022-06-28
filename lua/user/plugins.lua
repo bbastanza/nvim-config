@@ -101,9 +101,7 @@ return packer.startup(function(use)
     })
     use("JoosepAlviste/nvim-ts-context-commentstring")
 
-    -- C# Debugging with vimspector
-    use("puremourning/vimspector")
-
+    use ( 'mfussenegger/nvim-dap' )
     -- Git
     use("vim-test/vim-test")
 

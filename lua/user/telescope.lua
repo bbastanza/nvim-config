@@ -58,9 +58,9 @@ telescope.setup({
         -- builtin picker
     },
     extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_cursor {}
-        }
+        -- ["ui-select"] = {
+        --     require("telescope.themes").get_cursor {}
+        -- }
     },
 })
 
@@ -75,7 +75,7 @@ M.project_files = function()
     end
 end
 
-require("telescope").load_extension("ui-select")
+-- require("telescope").load_extension("ui-select")
 
 return M
 
