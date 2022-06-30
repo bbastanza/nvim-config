@@ -48,12 +48,6 @@ M.setup = function()
             autocmd CursorHold * lua vim.diagnostic.open_float()
             autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
         augroup end
-
-        augroup _format
-            autocmd!
-             autocmd BufWritePre * lua vim.lsp.buf.formatting()
-    
-        augroup end
     ]])
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -81,24 +75,39 @@ end
 
 local function lsp_keymaps(bufnr)
     local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gk", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", ":lua vim.lsp.buf.declaration()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gk", ":lua vim.lsp.buf.hover()<CR>", opts)
     -- Implementations
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gi",
-        "<cmd>lua require'telescope.builtin'.lsp_implementations(require('telescope.themes').get_dropdown())<CR>"
+        ":lua require'telescope.builtin'.lsp_implementations(require('telescope.themes').get_dropdown())<CR>"
         , opts)
     -- Search Symbols
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gs",
-        "<cmd>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols(require('telescope.themes').get_dropdown())<CR>"
+        ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols(require('telescope.themes').get_dropdown())<CR>"
         , opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-i>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-r>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>d", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-i>", ":lua vim.lsp.buf.signature_help()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-r>", ":lua vim.lsp.buf.rename()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":lua vim.lsp.buf.references()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", ':lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", ':lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>d", ":lua vim.diagnostic.setloclist()<CR>", opts)
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+end
+
+local ignoreFormattingServers = {
+    "tsserver",
+    "jsonls"
+}
+
+local function serverIgnoreFormatting(serverName)
+    for _, name in ipairs(ignoreFormattingServers) do
+        if name == serverName then
+            return true
+        end
+    end
+
+    return false
 end
 
 M.on_attach = function(client, bufnr)
@@ -110,7 +119,8 @@ M.on_attach = function(client, bufnr)
     -- if client.name == "jsonls" then
     --     client.server_capabilities.document_formatting = false
     -- end
-    if client.name ~= "tsserver" or client.name ~= "jsonls" then
+
+    if (~serverIgnoreFormatting(client.name)) then
         vim.cmd([[
             augroup _format
                 autocmd!
@@ -119,6 +129,7 @@ M.on_attach = function(client, bufnr)
             augroup end
         ]])
     end
+
     lsp_keymaps(bufnr)
     lsp_highlight_document(client)
 end
