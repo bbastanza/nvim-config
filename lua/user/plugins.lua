@@ -59,6 +59,7 @@ return packer.startup(function(use)
     use("antoinemadec/FixCursorHold.nvim") -- This is needed to fix lsp doc highlight
     use("folke/which-key.nvim")
     use("tpope/vim-surround")
+    use("chrisbra/improvedft")
 
     -- Colorschemes
     use("lunarvim/colorschemes") -- A bunch of colorschemes you can try out
@@ -101,7 +102,7 @@ return packer.startup(function(use)
     })
     use("JoosepAlviste/nvim-ts-context-commentstring")
 
-    use ( 'mfussenegger/nvim-dap' )
+    use('mfussenegger/nvim-dap')
     -- Git
     use("vim-test/vim-test")
 
