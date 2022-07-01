@@ -120,7 +120,7 @@ M.on_attach = function(client, bufnr)
     --     client.server_capabilities.document_formatting = false
     -- end
 
-    if (~serverIgnoreFormatting(client.name)) then
+    if (not serverIgnoreFormatting(client.name)) then
         vim.cmd([[
             augroup _format
                 autocmd!
