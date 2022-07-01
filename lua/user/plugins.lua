@@ -68,6 +68,9 @@ return packer.startup(function(use)
     use("joshdick/onedark.vim")
     use("folke/tokyonight.nvim")
     use("RRethy/vim-illuminate")
+    use("EdenEast/nightfox.nvim")
+    use("rakr/vim-one")
+    use("NTBBloodbath/doom-one.nvim")
 
     -- cmp plugins
     use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -101,10 +104,8 @@ return packer.startup(function(use)
         commit = "d810c386341fbf0d49895a2cdd6a2b63b945b71a"
     })
     use("JoosepAlviste/nvim-ts-context-commentstring")
-
+    use("nvim-treesitter/nvim-treesitter-angular")
     use('mfussenegger/nvim-dap')
-    -- Git
-    use("vim-test/vim-test")
 
     -- Git
     use("lewis6991/gitsigns.nvim")

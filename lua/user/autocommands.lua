@@ -33,6 +33,12 @@ vim.cmd([[
     autocmd!
     autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()
   augroup end
+
+    augroup _diagnostics
+        autocmd!
+        autocmd CursorHold * lua vim.diagnostic.open_float()
+        autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+    augroup end
 ]])
 
 vim.api.nvim_create_autocmd({ "InsertLeave" }, {

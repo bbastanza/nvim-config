@@ -22,3 +22,12 @@ require("user.ftimproved")
 require("user.lightbulb")
 require("user.unittests")
 require("user.colorscheme")
+require("user.lsp.null-ls")
+
+require("luasnip.loaders.from_vscode").lazy_load { paths = { "./snippets/angular" } }
+
+require 'lspconfig'.tsserver.setup {
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+    end,
+}
