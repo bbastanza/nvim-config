@@ -30,7 +30,6 @@ M.setup = function()
             source = "always",
             header = "",
             prefix = "⮚ ",
-
         },
     }
 
@@ -43,11 +42,11 @@ M.setup = function()
     })
 
     vim.cmd([[
-        augroup _diagnostics
-            autocmd!
-            autocmd CursorHold * lua vim.diagnostic.open_float()
-            autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
-        augroup end
+            augroup _format
+                autocmd!
+                 autocmd BufWritePre * lua vim.lsp.buf.formatting()
+
+            augroup end
     ]])
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -79,13 +78,21 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gk", ":lua vim.lsp.buf.hover()<CR>", opts)
     -- Implementations
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gi",
-        ":lua require'telescope.builtin'.lsp_implementations(require('telescope.themes').get_dropdown())<CR>"
-        , opts)
+    vim.api.nvim_buf_set_keymap(
+        bufnr,
+        "n",
+        "gi",
+        ":lua require'telescope.builtin'.lsp_implementations(require('telescope.themes').get_dropdown())<CR>",
+        opts
+    )
     -- Search Symbols
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gs",
-        ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols(require('telescope.themes').get_dropdown())<CR>"
-        , opts)
+    vim.api.nvim_buf_set_keymap(
+        bufnr,
+        "n",
+        "gs",
+        ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols(require('telescope.themes').get_dropdown())<CR>",
+        opts
+    )
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-i>", ":lua vim.lsp.buf.signature_help()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-r>", ":lua vim.lsp.buf.rename()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":lua vim.lsp.buf.references()<CR>", opts)
@@ -96,12 +103,14 @@ local function lsp_keymaps(bufnr)
 end
 
 local ignoreFormattingServers = {
+    -- "sumneko_lua",
     "tsserver",
-    "jsonls"
+    "jsonls",
 }
 
 local function serverIgnoreFormatting(serverName)
     for _, name in ipairs(ignoreFormattingServers) do
+        vim.notify(name)
         if name == serverName then
             return true
         end
@@ -111,7 +120,6 @@ local function serverIgnoreFormatting(serverName)
 end
 
 M.on_attach = function(client, bufnr)
-    vim.notify(client.name .. " starting...")
     -- TODO: refactor this into a method that checks if string in list
     -- if client.name == "tsserver" then
     --     client.server_capabilities.document_formatting = false
@@ -120,14 +128,9 @@ M.on_attach = function(client, bufnr)
     --     client.server_capabilities.document_formatting = false
     -- end
 
-    if (not serverIgnoreFormatting(client.name)) then
-        vim.cmd([[
-            augroup _format
-                autocmd!
-                 autocmd BufWritePre * lua vim.lsp.buf.formatting()
-        
-            augroup end
-        ]])
+    if serverIgnoreFormatting(client.name) then
+        vim.notify(client.name .. " ignore format...")
+        client.server_capabilities.document_formatting = false
     end
 
     lsp_keymaps(bufnr)
@@ -140,6 +143,7 @@ local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
     return
 end
+
 
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
